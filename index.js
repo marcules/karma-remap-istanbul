@@ -7,10 +7,23 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, config) {
   var sourceFiles = remapIstanbulReporterConfig.src || null;
   var remapIstanbulConfig = remapIstanbulReporterConfig.config || {};
 
+  var pendingReport = 0;
+  var reportFinished = function () { };
+
   this.onBrowserComplete = function (browser) {
-    if (!sourceFiles) return done();
-    remapIstanbul(sourceFiles, remapIstanbulConfig).then(done());
+    if (!sourceFiles) return;
+
+    pendingReport++;
+    remapIstanbul(sourceFiles, remapIstanbulConfig).then(reportFinished());
   };
+
+  this.onExit = function (done) {
+    if (pendingReport) {
+      reportFinished = done;
+    } else {
+      done();
+    }
+  }
 };
 
 KarmaRemapIstanbul.$inject = ['baseReporterDecorator', 'config', 'formatError'];
