@@ -1,0 +1,30 @@
+{
+  "name": "karma-remap-istanbul",
+  "version": "0.0.1",
+  "description": "Call remap-istanbul as a karma reporter, enabling remapped reports on watch",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marcules/karma-remap-istanbul.git"
+  },
+  "keywords": [
+    "remap-istanbul",
+    "karma-plugin",
+    "karma-reporter"
+  ],
+  "author": "Marc A. Harnos <mharnos@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marcules/karma-remap-istanbul/issues"
+  },
+  "homepage": "https://github.com/marcules/karma-remap-istanbul#readme",
+  "devDependencies": {
+    "remap-istanbul": "^0.5.1"
+  }
+}
