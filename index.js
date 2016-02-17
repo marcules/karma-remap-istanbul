@@ -4,17 +4,20 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, config) {
   baseReporterDecorator(this);
 
   var remapIstanbulReporterConfig = config.remapIstanbulReporter || {};
-  var sourceFiles = remapIstanbulReporterConfig.src || null;
-  var remapIstanbulConfig = remapIstanbulReporterConfig.config || {};
+  var sources = remapIstanbulReporterConfig.src || null;
+  var reports = remapIstanbulReporterConfig.reports || {};
 
   var pendingReport = 0;
   var reportFinished = function () { };
 
   this.onBrowserComplete = function (browser) {
-    if (!sourceFiles) return;
+    if (!sources) return;
 
     pendingReport++;
-    remapIstanbul(sourceFiles, remapIstanbulConfig).then(reportFinished());
+    remapIstanbul(sources, reports).then(
+      function(response) { reportFinished(); },
+      function(errorResponse) { console.warn(errorResponse); reportFinished(); }
+    );
   };
 
   this.onExit = function (done) {
