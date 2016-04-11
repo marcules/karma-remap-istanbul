@@ -23,8 +23,7 @@ Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
       lcovonly: 'path/to/output/coverage/lcov.info',
       html: 'path/to/output/html/report'
     },
-    timeoutNotCreated: 1000, // default value
-    timeoutNoMoreFiles: 1000 // default value
+    timeoutNotCreated: 1000 // default value
   }
 }
 ```
