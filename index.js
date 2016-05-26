@@ -1,8 +1,17 @@
 var chokidar = require('chokidar');
 var remapIstanbul = require('remap-istanbul');
 
-var KarmaRemapIstanbul = function (baseReporterDecorator, config) {
+function getSourcesCount(sources) {
+  if (Array.isArray(sources)) { return sources.length; }
+  if (typeof sources === 'string') { return 1; }
+
+  return null;
+}
+
+var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
+
+  var log = logger.create('reporter.remap-istanbul');
 
   var remapIstanbulReporterConfig = config.remapIstanbulReporter || {};
   var sources = remapIstanbulReporterConfig.src || null;
@@ -10,6 +19,7 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, config) {
   var timeoutNotCreated = remapIstanbulReporterConfig.timeoutNotCreated || 1000;
   var timeoutNoMoreFiles = remapIstanbulReporterConfig.timeoutNoMoreFiles || 1000;
 
+  var sourcesCount = getSourcesCount(sources);
   var pendingReport = 0;
   var reportFinished = function () { };
   var noMoreFilesTimeout;
@@ -30,24 +40,22 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, config) {
       addedPaths++;
       clearTimeout(noMoreFilesTimeout);
 
-      if (addedPaths >= sources.length) {
+      if (addedPaths >= sourcesCount) {
         remap(watcher);
+      } else {
+        noMoreFilesTimeout = setTimeout(function () {
+          log.warn('Not all files specified in sources could be found, continue with partial remapping.');
+          remap(watcher);
+        }, timeoutNoMoreFiles);
       }
-
-      // If no more files are found after "timeoutNoMoreFiles" call remap, even though
-      // we have not found all files specified in sources, and add warning
-      noMoreFilesTimeout = setTimeout(function () {
-        console.warn("Not all files specified in sources could be found, continue with partial remapping.");
-        remap(watcher);
-      }, timeoutNoMoreFiles);
     });
 
     // Check if no file is found after "timeoutNotCreated", close watcher and exit with
     // a warning
     setTimeout(function () {
-      if (!addedPaths) {
+      if (addedPaths === 0) {
         watcher.close();
-        console.warn("Couldn't find any specified files, exiting without doing anything.");
+        log.warn('Could not find any specified files, exiting without doing anything.');
         reportFinished();
       }
     }, timeoutNotCreated);
@@ -71,12 +79,15 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, config) {
 
     remapIstanbul(sources, reports).then(
       function (response) { reportFinished(); },
-      function (errorResponse) { console.warn(errorResponse); reportFinished(); }
+      function (errorResponse) {
+        log.warn(errorResponse);
+        reportFinished();
+      }
     );
   }
 };
 
-KarmaRemapIstanbul.$inject = ['baseReporterDecorator', 'config', 'formatError'];
+KarmaRemapIstanbul.$inject = ['baseReporterDecorator', 'logger', 'config'];
 
 module.exports = {
   'reporter:karma-remap-istanbul': ['type', KarmaRemapIstanbul]
