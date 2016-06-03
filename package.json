@@ -6,9 +6,6 @@
   "files": [
     "index.js"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/marcules/karma-remap-istanbul.git"
@@ -25,7 +22,7 @@
   },
   "homepage": "https://github.com/marcules/karma-remap-istanbul#readme",
   "dependencies": {
-    "chokidar": "^1.4.2",
+    "chokidar": "^1.5.1",
     "remap-istanbul": "^0.6.4"
   },
   "peerDependencies": {
