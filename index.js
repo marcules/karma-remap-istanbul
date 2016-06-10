@@ -18,6 +18,9 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
   var reports = remapIstanbulReporterConfig.reports || {};
   var timeoutNotCreated = remapIstanbulReporterConfig.timeoutNotCreated || 1000;
   var timeoutNoMoreFiles = remapIstanbulReporterConfig.timeoutNoMoreFiles || 1000;
+  
+  // increment timeoutNoMoreFiles by 5ms so it doesn't interfere with timeoutNotCreated fallback
+  timeoutNoMoreFiles += 5;
 
   var sourcesCount = getSourcesCount(sources);
   var pendingReport = 0;
@@ -36,7 +39,9 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
         stabilityThreshold: 500,
         pollInterval: 100
       }
-    }).on('add', function (path) {
+    }).on('add', onAdd);
+    
+    function onAdd(path) {
       addedPaths++;
       clearTimeout(noMoreFilesTimeout);
 
@@ -48,17 +53,30 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
           remap(watcher);
         }, timeoutNoMoreFiles);
       }
-    });
+    }
 
     // Check if no file is found after "timeoutNotCreated", close watcher and exit with
     // a warning
     setTimeout(function () {
+      if (Array.isArray(sources)) {
+        failNoFiles();  
+        return;
+      }
       if (addedPaths === 0) {
-        watcher.close();
-        log.warn('Could not find any specified files, exiting without doing anything.');
-        reportFinished();
+        if ((require('fs').readFileSync(sources))) {
+          log.warn('File watcher failed: Falling back to manual check');
+          onAdd();
+        } else {
+          failNoFiles();
+        }
       }
     }, timeoutNotCreated);
+    
+    function failNoFiles() {
+      watcher.close();
+      log.warn('Could not find any specified files, exiting without doing anything.');
+      reportFinished();
+    }
 
   };
 
