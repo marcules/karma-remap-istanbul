@@ -48,7 +48,7 @@ Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
     src: 'coverage/coverage-final.json',
     reports: {
       html: 'coverage'
-    }
+    },
     timeoutNotCreated: 1000,
     timeoutNoMoreFiles: 1000
   }
