@@ -24,7 +24,7 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
   var reportFinished = function () { };
   var noMoreFilesTimeout;
 
-  this.onBrowserComplete = function (browser) {
+  this.onRunComplete = function (browser) {
     if (!sources) return;
 
     pendingReport++;
