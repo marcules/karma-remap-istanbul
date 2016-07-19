@@ -16,16 +16,20 @@
     "karma-reporter"
   ],
   "author": "Marc A. Harnos <mharnos@gmail.com>",
+  "contributors": [{
+    "name": "Thomas Mair",
+    "email": "thomas.mair86@gmail.com"
+  }],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/marcules/karma-remap-istanbul/issues"
   },
   "homepage": "https://github.com/marcules/karma-remap-istanbul#readme",
   "dependencies": {
-    "chokidar": "^1.5.1",
     "remap-istanbul": "^0.6.4"
   },
   "peerDependencies": {
-    "karma": ">=0.9"
+    "karma": ">=0.9",
+    "karma-coverage": ">=1.1.0"
   }
 }
