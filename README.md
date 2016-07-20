@@ -11,25 +11,8 @@ npm install karma-remap-istanbul --save-dev
 
 ## configuration
 
-Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
+Add the plugin, and reporter to your `karma.conf.js`.
 
-```js
-{
-  plugins: ['karma-remap-istanbul'],
-  reporters: ['progress', 'karma-remap-istanbul'],
-  remapIstanbulReporter: {
-    src: 'path/to/generated/coverage/report.json',
-    reports: {
-      lcovonly: 'path/to/output/coverage/lcov.info',
-      html: 'path/to/output/html/report'
-    },
-    timeoutNotCreated: 1000, // default value
-    timeoutNoMoreFiles: 1000 // default value
-  }
-}
-```
-
-### Example configuration with `karma-coverage`
 ```js
 {
   preprocessors: {
@@ -38,19 +21,11 @@ Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
   plugins: ['karma-remap-istanbul', 'karma-coverage'],
   reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
   coverageReporter: {
-    reporters: [{
-      type: 'json',
-      subdir: '.', 
-      file: 'coverage-final.json'
-    }]
-  },
-  remapIstanbulReporter: {
-    src: 'coverage/coverage-final.json',
-    reports: {
-      html: 'coverage'
-    },
-    timeoutNotCreated: 1000,
-    timeoutNoMoreFiles: 1000
+    dir: 'coverage/',
+    reporters: [
+      { type: 'json', file: 'coverage-final.json' }
+      { type: 'html', subdir: '.'}
+    ]
   }
 }
 ```
