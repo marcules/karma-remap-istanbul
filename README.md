@@ -18,13 +18,10 @@ Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
   plugins: ['karma-remap-istanbul'],
   reporters: ['progress', 'karma-remap-istanbul'],
   remapIstanbulReporter: {
-    src: 'path/to/generated/coverage/report.json',
     reports: {
       lcovonly: 'path/to/output/coverage/lcov.info',
       html: 'path/to/output/html/report'
-    },
-    timeoutNotCreated: 1000, // default value
-    timeoutNoMoreFiles: 1000 // default value
+    }
   }
 }
 ```
@@ -37,23 +34,12 @@ Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
   },
   plugins: ['karma-remap-istanbul', 'karma-coverage'],
   reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
-  coverageReporter: {
-    reporters: [{
-      type: 'json',
-      subdir: '.', 
-      file: 'coverage-final.json'
-    }]
-  },
   remapIstanbulReporter: {
-    src: 'coverage/coverage-final.json',
     reports: {
       html: 'coverage'
-    },
-    timeoutNotCreated: 1000,
-    timeoutNoMoreFiles: 1000
+    }
   }
 }
 ```
 
-
-You may want to install `karma-coverage` and register it as a reporter before `karma-remap-istanbul` for this reporter to be sensible. The src can be either a string to a json file or array to multiple json files, which will be processed in one report. This, and the possible reporter options can be found in the [remap-istanbul](https://github.com/SitePen/remap-istanbul) project README.
+You will need to either install `karma-coverage` and configure it as a preprocessor for your transpiled modules under test or instrument the modules under test as part of your build process. If the latter option is chosen, the coverage statistics will need to be stored at the `__coverage__` global variable (istanbul's default) or karma will not transmit them back to the runner.
