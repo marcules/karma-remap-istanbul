@@ -14,7 +14,9 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
 
   var coverageMap;
 
+  var baseReporterOnRunStart = this.onRunStart;
   this.onRunStart = function (browsers) {
+    baseReporterOnRunStart.apply(this, arguments);
     coverageMap = new WeakMap();
   };
 
@@ -28,7 +30,10 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
 
   var reportFinished = function () { };
 
+  var baseReporterOnRunComplete = this.onRunComplete;
   this.onRunComplete = function (browsers) {
+    baseReporterOnRunComplete.apply(this, arguments);
+
     // Collect the unmapped coverage information for all browsers in this run
     var unmappedCoverage = (function () {
       var collector = new istanbul.Collector();
