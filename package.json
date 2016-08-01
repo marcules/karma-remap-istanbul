@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/marcules/karma-remap-istanbul#readme",
   "dependencies": {
-    "chokidar": "^1.5.1",
+    "istanbul": "^0.4.3",
     "remap-istanbul": "^0.6.4"
   },
   "peerDependencies": {
