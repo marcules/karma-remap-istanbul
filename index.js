@@ -54,6 +54,12 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
     var sourceStore = istanbul.Store.create('memory');
     var collector = remap(unmappedCoverage, { sources: sourceStore });
 
+    collector.store.keys().forEach(function(key) {
+      if (!sourceStore.hasKey(key)) {
+        sourceStore.set(key, collector.store.get(key));
+      }
+    });
+
     Promise.all(Object.keys(reports).map(function (reportType) {
       var destination = reports[reportType];
 
