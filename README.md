@@ -18,6 +18,7 @@ Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
   plugins: ['karma-remap-istanbul'],
   reporters: ['progress', 'karma-remap-istanbul'],
   remapIstanbulReporter: {
+    remapOptions: {}, //additional remap options
     reports: {
       lcovonly: 'path/to/output/coverage/lcov.info',
       html: 'path/to/output/html/report'
