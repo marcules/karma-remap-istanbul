@@ -1,0 +1,27 @@
+{
+  "name": "karma-remap-istanbul-example",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Karma remap istanbul example",
+  "scripts": {
+    "test": "karma start"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "~3.4.32",
+    "@types/mocha": "~2.2.31",
+    "chai": "~3.5.0",
+    "karma": "~1.2.0",
+    "karma-coverage": "~1.1.1",
+    "karma-mocha": "~1.1.1",
+    "karma-phantomjs-launcher": "~1.0.2",
+    "karma-remap-istanbul": "~0.2.1",
+    "karma-sourcemap-loader": "~0.3.7",
+    "karma-webpack": "~1.8.0",
+    "mocha": "~3.0.2",
+    "sourcemap-istanbul-instrumenter-loader": "~0.2.0",
+    "ts-loader": "~0.8.2",
+    "typescript": "~2.0.2",
+    "webpack": "~1.13.2"
+  }
+}
