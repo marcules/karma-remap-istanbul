@@ -4,13 +4,13 @@ const webpackConfig = {
   module: {
     loaders: [{
       test: /\.ts$/,
-      loader: 'ts',
+      loader: 'ts-loader',
       exclude: /node_modules/
     }],
     postLoaders: [{
       test: /src\/.+\.ts$/,
-      exclude: /(test|node_modules|\.spec)/,
-      loader: 'sourcemap-istanbul-instrumenter?force-sourcemap=true'
+      exclude: /(node_modules|\.spec\.ts$)/,
+      loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true'
     }]
   },
   plugins: [
