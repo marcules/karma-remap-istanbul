@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const webpack = require('webpack'); // eslint-disable-line import/no-unresolved
 
 const webpackConfig = {
   module: {

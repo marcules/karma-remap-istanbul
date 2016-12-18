@@ -15,7 +15,7 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
   var coverageMap;
 
   var baseReporterOnRunStart = this.onRunStart;
-  this.onRunStart = function (browsers) {
+  this.onRunStart = function () {
     baseReporterOnRunStart.apply(this, arguments);
     coverageMap = new WeakMap();
   };
@@ -52,9 +52,9 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
     })();
 
     var sourceStore = istanbul.Store.create('memory');
-    var collector = remap(unmappedCoverage, { sources: sourceStore });
+    var collector = remap(unmappedCoverage, {sources: sourceStore});
 
-    if (!Object.keys(sourceStore.map).length) {
+    if (Object.keys(sourceStore.map).length === 0) {
       sourceStore = undefined;
     }
 
@@ -64,8 +64,8 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
       log.debug('Writing coverage to %s', destination);
 
       return writeReport(collector, reportType, {}, destination, sourceStore);
-    })).catch(function (error) {
-      log.error(error);
+    })).catch(function (err) {
+      log.error(err);
     }).then(function () {
       collector.dispose();
       coverageMap = null;

@@ -27,5 +27,12 @@
   },
   "peerDependencies": {
     "karma": ">=0.9"
+  },
+  "scripts": {
+    "lint": "xo --space",
+    "test": "npm run lint"
+  },
+  "devDependencies": {
+    "xo": "~0.17.1"
   }
 }
