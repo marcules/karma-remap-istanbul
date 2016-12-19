@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 
 const webpackConfig = {
@@ -24,8 +25,7 @@ const webpackConfig = {
   }
 };
 
-
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     basePath: './',
@@ -50,7 +50,7 @@ module.exports = function(config) {
 
     remapIstanbulReporter: {
       reports: {
-        'json-summary': __dirname + '/fixtures/outputs/coverage.json'
+        'json-summary': path.join(__dirname, '/fixtures/outputs/coverage.json')
       }
     }
 
