@@ -1,0 +1,58 @@
+const path = require('path');
+const webpack = require('webpack');
+
+const webpackConfig = {
+  module: {
+    loaders: [{
+      test: /\.ts$/,
+      loader: 'ts-loader',
+      exclude: /node_modules/
+    }],
+    postLoaders: [{
+      test: /src\/.+\.ts$/,
+      exclude: /(node_modules|\.spec\.ts$)/,
+      loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true'
+    }]
+  },
+  plugins: [
+    new webpack.SourceMapDevToolPlugin({
+      filename: null,
+      test: /\.(ts|js)($|\?)/i
+    })
+  ],
+  resolve: {
+    extensions: ['', '.ts', '.js']
+  }
+};
+
+module.exports = function (config) {
+  config.set({
+
+    basePath: './',
+
+    browsers: ['PhantomJS'],
+
+    frameworks: ['mocha'],
+
+    singleRun: true,
+
+    reporters: ['dots', 'karma-remap-istanbul'],
+
+    files: [
+      'fixtures/inputs/test/test.spec.ts'
+    ],
+
+    preprocessors: {
+      'fixtures/inputs/test/test.spec.ts': ['webpack', 'sourcemap']
+    },
+
+    webpack: webpackConfig,
+
+    remapIstanbulReporter: {
+      reports: {
+        'json-summary': path.join(__dirname, '/fixtures/outputs/coverage.json')
+      }
+    }
+
+  });
+};
