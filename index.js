@@ -14,12 +14,11 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
   var reports = remapIstanbulReporterConfig.reports || {};
   var remapOptions = remapIstanbulReporterConfig.remapOptions || {};
 
-  var coverageMap;
+  var coverageMap = new WeakMap();
 
   var baseReporterOnRunStart = this.onRunStart;
   this.onRunStart = function () {
     baseReporterOnRunStart.apply(this, arguments);
-    coverageMap = new WeakMap();
   };
 
   this.onBrowserComplete = function (browser, result) {
@@ -42,6 +41,7 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
 
       browsers.forEach(function (browser) {
         var coverage = coverageMap.get(browser);
+        coverageMap.delete(browser);
 
         if (!coverage) {
           return;
@@ -73,7 +73,6 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
       log.error(err);
     }).then(function () {
       collector.dispose();
-      coverageMap = null;
 
       reportFinished();
 
