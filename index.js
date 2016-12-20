@@ -3,6 +3,7 @@
 var istanbul = require('istanbul');
 var remap = require('remap-istanbul/lib/remap').default;
 var writeReport = require('remap-istanbul/lib/writeReport').default;
+var assign = require('object.assign/polyfill')();
 
 var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
@@ -11,6 +12,7 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
 
   var remapIstanbulReporterConfig = config.remapIstanbulReporter || {};
   var reports = remapIstanbulReporterConfig.reports || {};
+  var remapOptions = remapIstanbulReporterConfig.remapOptions || {};
 
   var coverageMap;
 
@@ -52,7 +54,10 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
     })();
 
     var sourceStore = istanbul.Store.create('memory');
-    var collector = remap(unmappedCoverage, {sources: sourceStore});
+
+    var collector = remap(unmappedCoverage, assign({
+      sources: sourceStore
+    }, remapOptions));
 
     if (Object.keys(sourceStore.map).length === 0) {
       sourceStore = undefined;
