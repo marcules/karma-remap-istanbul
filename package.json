@@ -24,7 +24,7 @@
   "dependencies": {
     "istanbul": "^0.4.3",
     "object.assign": "^4.0.4",
-    "remap-istanbul": "^0.8.2"
+    "remap-istanbul": "^0.8.3"
   },
   "peerDependencies": {
     "karma": ">=0.9"

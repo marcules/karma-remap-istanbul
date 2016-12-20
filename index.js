@@ -1,8 +1,8 @@
 /* globals WeakMap, Promise */
 
 var istanbul = require('istanbul');
-var remap = require('remap-istanbul/lib/remap').default;
-var writeReport = require('remap-istanbul/lib/writeReport').default;
+var remap = require('remap-istanbul/lib/remap');
+var writeReport = require('remap-istanbul/lib/writeReport');
 var assign = require('object.assign/polyfill')();
 
 var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
