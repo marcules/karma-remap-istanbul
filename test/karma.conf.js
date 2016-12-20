@@ -5,7 +5,7 @@ const webpackConfig = {
   module: {
     loaders: [{
       test: /\.ts$/,
-      loader: 'ts-loader',
+      loader: 'ts-loader?silent=true',
       exclude: /node_modules/
     }],
     postLoaders: [{
@@ -36,7 +36,7 @@ module.exports = function (config) {
 
     singleRun: true,
 
-    reporters: ['dots', 'karma-remap-istanbul'],
+    reporters: ['karma-remap-istanbul'],
 
     files: [
       'fixtures/inputs/test/test.spec.ts'
@@ -48,11 +48,18 @@ module.exports = function (config) {
 
     webpack: webpackConfig,
 
+    webpackMiddleware: {
+      stats: 'errors-only',
+      noInfo: true
+    },
+
     remapIstanbulReporter: {
       reports: {
         'json-summary': path.join(__dirname, '/fixtures/outputs/coverage.json')
       }
-    }
+    },
+
+    logLevel: config.LOG_DISABLE
 
   });
 };
