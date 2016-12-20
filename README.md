@@ -43,4 +43,4 @@ Add the plugin, reporter and reporter configuration in your `karma.conf.js`.
 }
 ```
 
-You will need to either install `karma-coverage` and configure it as a preprocessor for your transpiled modules under test or instrument the modules under test as part of your build process. If the latter option is chosen, the coverage statistics will need to be stored at the `__coverage__` global variable (istanbul's default) or karma will not transmit them back to the runner.
+You will need to either install `karma-coverage` and configure it as a preprocessor for your transpiled modules under test or instrument the modules under test as part of your build process (i.e. via a tool like webpack and the `sourcemap-istanbul-instrumenter-loader`). If the latter option is chosen, the coverage statistics will need to be stored by the build tool on the `__coverage__` global variable (istanbul's default) or karma will not transmit the coverage back to the runner. For a full e2e example please [look here](https://github.com/marcules/karma-remap-istanbul/tree/master/examples/webpack).
