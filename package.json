@@ -33,7 +33,8 @@
     "lint": "xo",
     "pretest": "npm run lint",
     "test": "nyc mocha",
-    "test:watch": "mocha --watch"
+    "test:watch": "mocha --watch",
+    "preversion": "npm test"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
