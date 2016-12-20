@@ -21,11 +21,9 @@ function createServer(config) {
 }
 
 describe('karma-remap-istanbul', () => {
-
   it('should generate a remapped coverage report', done => {
     const server = createServer();
     server.start();
-
     server.on('run_complete', () => {
       setTimeout(() => { // hacky workaround to make sure the file has been written
         const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/outputs/coverage.json')));
@@ -69,7 +67,6 @@ describe('karma-remap-istanbul', () => {
   });
 
   it('should allow files to be excluded', done => {
-
     const server = createServer({
       remapIstanbulReporter: {
         reports: {
@@ -115,7 +112,5 @@ describe('karma-remap-istanbul', () => {
         done();
       }, 300);
     });
-
   });
-
 });
