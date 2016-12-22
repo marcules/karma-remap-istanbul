@@ -1,6 +1,6 @@
 {
   "name": "karma-remap-istanbul",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Call remap-istanbul as a karma reporter, enabling remapped reports on watch",
   "main": "index.js",
   "files": [
