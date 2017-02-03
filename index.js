@@ -13,7 +13,7 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
   var remapIstanbulReporterConfig = config.remapIstanbulReporter || {};
   var reports = remapIstanbulReporterConfig.reports || {};
   var remapOptions = remapIstanbulReporterConfig.remapOptions || {};
-  var writeReportOptions = remapIstanbulReporterConfig.writeReportOptions || {};
+  var reportOptions = remapIstanbulReporterConfig.reportOptions || {};
 
   var coverageMap = new WeakMap();
 
@@ -69,7 +69,7 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
 
       log.debug('Writing coverage to %s', destination);
 
-      return writeReport(collector, reportType, writeReportOptions, destination, sourceStore);
+      return writeReport(collector, reportType, reportOptions, destination, sourceStore);
     })).catch(function (err) {
       log.error(err);
     }).then(function () {
