@@ -2,9 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const chai = require('chai');
 const karma = require('karma');
+const rimraf = require('rimraf');
 
 const expect = chai.expect;
 const karmaRemapIstanbul = require('../');
+
+const FIXTURES_OUTPUT = path.join(__dirname, '/fixtures/outputs');
 
 function createServer(config) {
   config = config || {};
@@ -21,12 +24,16 @@ function createServer(config) {
 }
 
 describe('karma-remap-istanbul', () => {
+  beforeEach(() => {
+    rimraf.sync(FIXTURES_OUTPUT);
+  });
+
   it('should generate a remapped coverage report', done => {
     const server = createServer();
     server.start();
     server.on('run_complete', () => {
       setTimeout(() => { // hacky workaround to make sure the file has been written
-        const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/outputs/coverage.json')));
+        const summary = JSON.parse(fs.readFileSync(path.join(FIXTURES_OUTPUT, 'coverage.json')));
         expect(summary.total).to.deep.equal({
           lines: {
             total: 6,
@@ -70,7 +77,7 @@ describe('karma-remap-istanbul', () => {
     const server = createServer({
       remapIstanbulReporter: {
         reports: {
-          'json-summary': path.join(__dirname, '/fixtures/outputs/coverage.json')
+          'json-summary': path.join(FIXTURES_OUTPUT, 'coverage.json')
         },
         remapOptions: {
           exclude: 'example'
@@ -81,7 +88,7 @@ describe('karma-remap-istanbul', () => {
 
     server.on('run_complete', () => {
       setTimeout(() => { // hacky workaround to make sure the file has been written
-        const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/outputs/coverage.json')));
+        const summary = JSON.parse(fs.readFileSync(path.join(FIXTURES_OUTPUT, 'coverage.json')));
         expect(summary.total).to.deep.equal({
           lines: {
             total: 0,
