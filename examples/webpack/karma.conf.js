@@ -2,15 +2,15 @@ const webpack = require('webpack'); // eslint-disable-line import/no-unresolved
 
 const webpackConfig = {
   module: {
-    loaders: [{
+    rules: [{
       test: /\.ts$/,
       loader: 'ts-loader',
       exclude: /node_modules/
-    }],
-    postLoaders: [{
+    }, {
       test: /src\/.+\.ts$/,
       exclude: /(node_modules|\.spec\.ts$)/,
-      loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true'
+      loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true',
+      enforce: 'post'
     }]
   },
   plugins: [
@@ -20,7 +20,7 @@ const webpackConfig = {
     })
   ],
   resolve: {
-    extensions: ['', '.ts', '.js']
+    extensions: ['.ts', '.js']
   }
 };
 
