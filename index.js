@@ -1,23 +1,22 @@
-/* globals WeakMap, Promise */
+'use strict';
 
-var istanbul = require('istanbul');
-var remap = require('remap-istanbul/lib/remap');
-var writeReport = require('remap-istanbul/lib/writeReport');
-var assign = require('object.assign/polyfill')();
+const istanbul = require('istanbul');
+const remap = require('remap-istanbul/lib/remap');
+const writeReport = require('remap-istanbul/lib/writeReport');
 
-var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
+function KarmaRemapIstanbul(baseReporterDecorator, logger, config) {
   baseReporterDecorator(this);
 
-  var log = logger.create('reporter.remap-istanbul');
+  const log = logger.create('reporter.remap-istanbul');
 
-  var remapIstanbulReporterConfig = config.remapIstanbulReporter || {};
-  var reports = remapIstanbulReporterConfig.reports || {};
-  var remapOptions = remapIstanbulReporterConfig.remapOptions || {};
-  var reportOptions = remapIstanbulReporterConfig.reportOptions || {};
+  const remapIstanbulReporterConfig = config.remapIstanbulReporter || {};
+  const reports = remapIstanbulReporterConfig.reports || {};
+  const remapOptions = remapIstanbulReporterConfig.remapOptions || {};
+  const reportOptions = remapIstanbulReporterConfig.reportOptions || {};
 
-  var coverageMap = new WeakMap();
+  const coverageMap = new WeakMap();
 
-  var baseReporterOnRunStart = this.onRunStart;
+  const baseReporterOnRunStart = this.onRunStart;
   this.onRunStart = function () {
     baseReporterOnRunStart.apply(this, arguments);
   };
@@ -30,18 +29,18 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
     coverageMap.set(browser, result.coverage);
   };
 
-  var reportFinished = function () { };
+  let reportFinished = () => {};
 
-  var baseReporterOnRunComplete = this.onRunComplete;
+  const baseReporterOnRunComplete = this.onRunComplete;
   this.onRunComplete = function (browsers) {
     baseReporterOnRunComplete.apply(this, arguments);
 
     // Collect the unmapped coverage information for all browsers in this run
-    var unmappedCoverage = (function () {
-      var collector = new istanbul.Collector();
+    const unmappedCoverage = (() => {
+      const collector = new istanbul.Collector();
 
-      browsers.forEach(function (browser) {
-        var coverage = coverageMap.get(browser);
+      browsers.forEach(browser => {
+        const coverage = coverageMap.get(browser);
         coverageMap.delete(browser);
 
         if (!coverage) {
@@ -54,9 +53,9 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
       return collector.getFinalCoverage();
     })();
 
-    var sourceStore = istanbul.Store.create('memory');
+    let sourceStore = istanbul.Store.create('memory');
 
-    var collector = remap(unmappedCoverage, assign({
+    const collector = remap(unmappedCoverage, Object.assign({
       sources: sourceStore
     }, remapOptions));
 
@@ -64,15 +63,15 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
       sourceStore = undefined;
     }
 
-    Promise.all(Object.keys(reports).map(function (reportType) {
-      var destination = reports[reportType];
+    Promise.all(Object.keys(reports).map(reportType => {
+      const destination = reports[reportType];
 
       log.debug('Writing coverage to %s', destination);
 
       return writeReport(collector, reportType, reportOptions, destination, sourceStore);
-    })).catch(function (err) {
+    })).catch(err => {
       log.error(err);
-    }).then(function () {
+    }).then(() => {
       collector.dispose();
 
       reportFinished();
@@ -81,14 +80,14 @@ var KarmaRemapIstanbul = function (baseReporterDecorator, logger, config) {
       this.onExit = function (done) {
         done();
       };
-    }.bind(this));
+    });
   };
 
   this.onExit = function (done) {
     // Reports have not been written, so assign `done` to `reportFinished`
     reportFinished = done;
   };
-};
+}
 
 KarmaRemapIstanbul.$inject = ['baseReporterDecorator', 'logger', 'config'];
 
