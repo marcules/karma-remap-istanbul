@@ -7,7 +7,7 @@ const webpackConfig = {
       loader: 'ts-loader',
       exclude: /node_modules/
     }, {
-      test: /src\/.+\.ts$/,
+      test: /src(\/|\\).+\.ts$/,
       exclude: /(node_modules|\.spec\.ts$)/,
       loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true',
       enforce: 'post'
