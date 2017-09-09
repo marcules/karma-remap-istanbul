@@ -51,4 +51,4 @@ For some build tools there are better suited solutions than using this module.
 * babel users can use the [babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul) as it doesn't rely on sourcemapping and so is less error prone and more accurate
 * system.js users can use [systemjs-istanbul](https://github.com/guybedford/systemjs-istanbul) as it has remap-istanbul support included
 * browserify users can use [karma-typescript](https://github.com/monounity/karma-typescript) as it has remap-istanbul support included
-* webpack users can use the [instanbul-instrumenter-loader](https://github.com/deepsweet/istanbul-instrumenter-loader) and the [karma-coverage-instanbul-reporter](https://github.com/mattlewis92/karma-coverage-istanbul-reporter)
+* webpack users can use the [istanbul-instrumenter-loader](https://github.com/deepsweet/istanbul-instrumenter-loader) and the [karma-coverage-instanbul-reporter](https://github.com/mattlewis92/karma-coverage-istanbul-reporter)
