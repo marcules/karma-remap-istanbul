@@ -23,7 +23,7 @@
   "homepage": "https://github.com/marcules/karma-remap-istanbul#readme",
   "dependencies": {
     "istanbul": "^0.4.3",
-    "remap-istanbul": "^0.9.0"
+    "remap-istanbul": "^0.10.1"
   },
   "peerDependencies": {
     "karma": ">=0.9"
